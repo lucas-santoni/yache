@@ -1,14 +1,16 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include <array>
 
-#include "specs.h"
+#include "Specs.h"
 
 class Memory {
   private:
-    std::array<uint8_t, Specs::RAM_SIZE> ram;
+    uint8_t ram[Specs::RAM_SIZE] = {0};
 
   public:
     void reset(void);
+    void dump(uint32_t from, uint32_t to) const;
+    char *getCharRamPointer(void) const;
 };

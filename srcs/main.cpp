@@ -1,8 +1,16 @@
 #include "Chip8.hpp"
+#include "Status.hpp"
 
-int main(void) {
+// TODO: clean argument parsing
+int main(int argc, char **argv) {
+  if (argc < 1)
+    return FAILURE;
+
   Chip8 chip;
 
-  chip.reset();
-  return 0;
+  ++argv;
+  chip.loadRomFromFile(*argv);
+  chip.dumpMemory();
+
+  return SUCCESS;
 }

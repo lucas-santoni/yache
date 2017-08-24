@@ -1,13 +1,16 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include <array>
 
-#include "specs.h"
+#include "Specs.h"
 
 class Keypad {
   private:
     std::array<uint8_t, Specs::KEY_NUMBERS> keyStates;
+
+  public:
+    explicit Keypad(void);
 
   public:
     void reset(void);

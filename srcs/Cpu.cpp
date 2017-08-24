@@ -1,5 +1,9 @@
 #include "Cpu.hpp"
 
+Cpu::Cpu(void) {
+  reset();
+}
+
 void Cpu::reset(void) {
   generalRegisters.fill(0);
   callStack.fill(0);

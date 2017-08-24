@@ -1,13 +1,16 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include <array>
 
-#include "specs.h"
+#include "Specs.h"
 
 class Screen {
   private:
     std::array<uint8_t, Specs::VRAM_SIZE> vram;
+
+  public:
+    explicit Screen(void);
 
   public:
     void reset(void);

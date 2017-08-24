@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace Specs {
   constexpr uint32_t RAM_SIZE = 4096;

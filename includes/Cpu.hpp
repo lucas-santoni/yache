@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stdint.h>
+#include <cstdint>
 #include <array>
 
-#include "specs.h"
+#include "Specs.h"
 
 class Cpu {
   private:
@@ -13,6 +13,9 @@ class Cpu {
     uint16_t index;
     uint16_t pc;
     uint16_t sp;
+
+  public:
+    explicit Cpu(void);
 
   public:
     void reset(void);

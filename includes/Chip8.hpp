@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Cpu.hpp"
 #include "Memory.hpp"
 #include "Screen.hpp"
@@ -14,4 +16,11 @@ class Chip8 {
 
   public:
     void reset(void);
+
+  public:
+    void dumpMemory(uint32_t from, uint32_t to) const;
+    void dumpMemory() const;
+
+  public:
+    void loadRomFromFile(const std::string& filePath);
 };
