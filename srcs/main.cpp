@@ -1,16 +1,18 @@
 #include "Chip8.hpp"
-#include "Status.hpp"
+#include "status.hpp"
 
-// TODO: clean argument parsing
-int main(int argc, char **argv) {
-  if (argc < 1)
+// TODO: Clean CLI arguments parsing
+int main(int argc, char *const argv[]) {
+  if (argc < 2)
     return FAILURE;
 
   Chip8 chip;
 
   ++argv;
   chip.loadRomFromFile(*argv);
-  chip.dumpMemory();
+
+  for (uint32_t i = 0; i < 1; ++i)
+    chip.cycle();
 
   return SUCCESS;
 }
