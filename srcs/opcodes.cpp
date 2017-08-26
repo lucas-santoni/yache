@@ -14,8 +14,8 @@ void Chip8::_op_00E0(void) {
 }
 
 void Chip8::_op_00EE(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _pc = _stack.top();
+  _stack.pop();
 }
 
 void Chip8::_op_1NNN(void) {
@@ -30,12 +30,15 @@ void Chip8::_op_2NNN(void) {
 void Chip8::_op_3XNN(void) {
   if (_registers[(_currentOpcode & 0x0F00) >> 8] ==
       (_currentOpcode & 0x00FF))
-    _pc += 2;
+    _pc += sizeof(uint16_t);
 }
 
 void Chip8::_op_4XNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t nn = _currentOpcode & 0x00FF;
+
+  if (_registers[x] != nn)
+    _pc += sizeof(uint16_t);
 }
 
 void Chip8::_op_5XY0(void) {
@@ -52,8 +55,10 @@ void Chip8::_op_7XNN(void) {
 }
 
 void Chip8::_op_8XY0(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t y = (_currentOpcode & 0x00F0) >> 4;
+
+  _registers[x] = _registers[y];
 }
 
 void Chip8::_op_8XY1(void) {
@@ -62,8 +67,10 @@ void Chip8::_op_8XY1(void) {
 }
 
 void Chip8::_op_8XY2(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t y = (_currentOpcode & 0x00F0) >> 4;
+
+  _registers[x] &= _registers[y];
 }
 
 void Chip8::_op_BXY3(void) {
@@ -71,14 +78,24 @@ void Chip8::_op_BXY3(void) {
   exit(SUCCESS);
 }
 
+// TODO: Problems may come from this
 void Chip8::_op_8XY4(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t y = (_currentOpcode & 0x00F0) >> 4;
+  uint32_t r = _registers[x] + _registers[y];
+
+  _registers[0xf] = (r > 0xff);
+  _registers[x] += _registers[y];
+
 }
 
 void Chip8::_op_8XY5(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t y = (_currentOpcode & 0x00F0) >> 4;
+  uint32_t r = _registers[x] - _registers[y];
+
+  _registers[0xf] = (r > 0x00);
+  _registers[x] -= _registers[y];
 }
 
 void Chip8::_op_8XY6(void) {
@@ -111,8 +128,11 @@ void Chip8::_op_BNNN(void) {
 }
 
 void Chip8::_op_CXNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t nn = _currentOpcode & 0x00FF;
+  uint8_t r = rand() % (0xff + 1);
+
+  _registers[x] = r & nn;
 }
 
 // TODO: Update video memory
@@ -130,14 +150,16 @@ void Chip8::_op_EX9E(void) {
   exit(SUCCESS);
 }
 
+// TODO: Check key pressing
 void Chip8::_op_EXA1(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+
+  if (_keys[x])
+    _pc += sizeof(uint16_t);
 }
 
 void Chip8::_op_FX07(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _registers[(_currentOpcode & 0x0F00) >> 8] = _delayTimer;
 }
 
 void Chip8::_op_FX0A(void) {
@@ -146,13 +168,11 @@ void Chip8::_op_FX0A(void) {
 }
 
 void Chip8::_op_FX15(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _delayTimer = (_currentOpcode & 0x0F00) >> 8;
 }
 
 void Chip8::_op_FX18(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _soundTimer = (_currentOpcode & 0x0F00) >> 8;
 }
 
 void Chip8::_op_FX1E(void) {
@@ -160,9 +180,10 @@ void Chip8::_op_FX1E(void) {
   exit(SUCCESS);
 }
 
+// TODO: More research on this
 void Chip8::_op_FX29(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  _index = _registers[x] * 0x5;
 }
 
 void Chip8::_op_FX33(void) {
@@ -179,6 +200,10 @@ void Chip8::_op_FX55(void) {
 }
 
 void Chip8::_op_FX65(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = _memory[(_currentOpcode & 0x0F00) >> 8];
+
+  for (uint32_t i = 0; i <= x; ++i)
+    _registers[i] = _memory[_index];
+
+  _index += x + 1;
 }

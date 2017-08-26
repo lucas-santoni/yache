@@ -21,10 +21,13 @@ class Chip8 {
 
   private:
     std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {};
+    std::stack<uint16_t> _stack;
     uint16_t _index = 0x000;
 
   private:
-    std::stack<uint16_t> _stack;
+    std::array<bool, Specs::NUMBER_OF_KEYS> _keys = {};
+    uint8_t _delayTimer = 0x000;
+    uint8_t _soundTimer = 0x000;
 
   private:
     bool _redraw = false;
@@ -100,7 +103,7 @@ class Chip8 {
       {0xF000, 0xD000, &Chip8::_op_DXYN}, /* DXYN */
       {0xF0FF, 0xE09E, &Chip8::_op_EX9E}, /* EX9E */
       {0xF0FF, 0xE0A1, &Chip8::_op_EXA1}, /* EXA1 */
-      {0xF0FF, 0xF006, &Chip8::_op_FX07}, /* FX07 */
+      {0xF0FF, 0xF007, &Chip8::_op_FX07}, /* FX07 */
       {0xF0FF, 0xF00A, &Chip8::_op_FX0A}, /* FX0A */
       {0xF0FF, 0xF015, &Chip8::_op_FX15}, /* FX15 */
       {0xF0FF, 0xF018, &Chip8::_op_FX18}, /* FX18 */
