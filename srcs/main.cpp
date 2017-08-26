@@ -11,7 +11,7 @@ int main(int argc, char *const argv[]) {
   ++argv;
   chip.loadRomFromFile(*argv);
 
-  for (uint32_t i = 0; i < 1; ++i)
+  for (;;)
     chip.cycle();
 
   return SUCCESS;

@@ -1,7 +1,7 @@
 #include <string>
 #include <functional>
 #include <array>
-#include <map>
+#include <stack>
 
 #include "Specs.h"
 
@@ -18,6 +18,16 @@ class Chip8 {
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;
+
+  private:
+    std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {};
+    uint16_t _index = 0x000;
+
+  private:
+    std::stack<uint16_t> _stack;
+
+  private:
+    bool _redraw = false;
 
   public:
     void loadRomFromFile(const std::string& filePath);
@@ -98,5 +108,6 @@ class Chip8 {
       {0xF0FF, 0xF029, &Chip8::_op_FX29}, /* FX29 */
       {0xF0FF, 0xF033, &Chip8::_op_FX33}, /* FX33 */
       {0xF0FF, 0xF055, &Chip8::_op_FX55}, /* FX55 */
+      {0xF0FF, 0xF065, &Chip8::_op_FX65}, /* FX65 */
     }};
 };

@@ -30,6 +30,7 @@ void Chip8::dumpMemory(uint32_t from, uint32_t to) const {
   }
 }
 
+// TODO: Cleaner error handling
 void Chip8::cycle(void) {
   _currentOpcode = _memory[_pc] << 8 | _memory[_pc + 1];
 
@@ -37,8 +38,11 @@ void Chip8::cycle(void) {
     if ((_currentOpcode & op.mask) == op.key) {
       printf("%04x\n", _currentOpcode);
       op.f(this);
-      break;
+      _pc += sizeof(uint16_t);
+      return;
     }
   }
-  _pc += sizeof(uint16_t);
+
+  printf("NON EXISTING OPCODE : %04x\n", _currentOpcode);
+  exit(FAILURE);
 }

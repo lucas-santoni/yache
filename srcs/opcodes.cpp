@@ -19,18 +19,18 @@ void Chip8::_op_00EE(void) {
 }
 
 void Chip8::_op_1NNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _pc = _currentOpcode & 0x0FFF;
 }
 
 void Chip8::_op_2NNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _stack.push(_pc);
+  _pc = _currentOpcode & 0x0FFF;
 }
 
 void Chip8::_op_3XNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  if (_registers[(_currentOpcode & 0x0F00) >> 8] ==
+      (_currentOpcode & 0x00FF))
+    _pc += 2;
 }
 
 void Chip8::_op_4XNN(void) {
@@ -44,14 +44,11 @@ void Chip8::_op_5XY0(void) {
 }
 
 void Chip8::_op_6XNN(void) {
-  printf("%04x\n", (*this)._currentOpcode);
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _registers[(_currentOpcode & 0x0F00) >> 8] = _currentOpcode & 0x00FF;
 }
 
 void Chip8::_op_7XNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _registers[(_currentOpcode & 0x0F00) >> 8] += _currentOpcode & 0x00FF;
 }
 
 void Chip8::_op_8XY0(void) {
@@ -105,8 +102,7 @@ void Chip8::_op_9XY0(void) {
 }
 
 void Chip8::_op_ANNN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _index = _currentOpcode & 0x0FFF;
 }
 
 void Chip8::_op_BNNN(void) {
@@ -119,9 +115,14 @@ void Chip8::_op_CXNN(void) {
   exit(SUCCESS);
 }
 
+// TODO: Update video memory
 void Chip8::_op_DXYN(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  uint8_t x = _registers[(_currentOpcode & 0x0EFF) >> 8];
+  uint8_t y = _registers[(_currentOpcode & 0x00F0) >> 4];
+  uint8_t n = (_currentOpcode & 0x000F);
+
+  printf("Draw @ (%x, %x) -> (8, %x)\n", x, y, n);
+  _redraw = true;
 }
 
 void Chip8::_op_EX9E(void) {
@@ -165,8 +166,11 @@ void Chip8::_op_FX29(void) {
 }
 
 void Chip8::_op_FX33(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  _memory[_index] = _registers[(_currentOpcode & 0x0F00) >> 8] / 100;
+  _memory[_index + 1] = (_registers[(_currentOpcode &
+        0x0F00) >> 8] / 10) % 10;
+  _memory[_index + 2] = (_registers[(_currentOpcode &
+        0x0F00) >> 8] % 100) % 10;
 }
 
 void Chip8::_op_FX55(void) {
