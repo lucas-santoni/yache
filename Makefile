@@ -8,8 +8,11 @@ CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
 CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return
 CXXFLAGS += -Wswitch-default -Wswitch-enum -Wunreachable-code -pedantic
 
+LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
+
 SRCS = srcs/main.cpp \
        srcs/Chip8.cpp \
+       srcs/Pixel.cpp \
        srcs/opcodes.cpp
 
 OBJS = $(SRCS:.cpp=.o)

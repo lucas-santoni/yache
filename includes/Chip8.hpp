@@ -3,6 +3,9 @@
 #include <array>
 #include <stack>
 
+#include <SFML/Window.hpp>
+
+#include "Pixel.hpp"
 #include "Specs.h"
 
 class Chip8;
@@ -14,6 +17,9 @@ typedef struct {
 } opcode;
 
 class Chip8 {
+  public:
+    explicit Chip8(void);
+
   private:
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
@@ -30,12 +36,22 @@ class Chip8 {
     uint8_t _soundTimer = 0x000;
 
   private:
-    bool _redraw = false;
+    sf::RenderWindow _window;
+    sf::Texture _texture;
+    sf::Sprite _sprite;
+    sf::Event _windowEvent;
+    void _windowCycle(void);
+
+  private:
+    std::array<std::array<Pixel,
+      Specs::WINDOW_WIDTH>, Specs::WINDOW_HEIGHT> _vmemory = {};
+    bool _redraw = true;
 
   public:
     void loadRomFromFile(const std::string& filePath);
     void dumpMemory(uint32_t from = 0,
         uint32_t to = Specs::MEMORY_SIZE) const;
+    void dumpVideoMemory(void) const;
     void cycle(void);
 
   private:

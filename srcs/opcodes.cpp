@@ -135,13 +135,23 @@ void Chip8::_op_CXNN(void) {
   _registers[x] = r & nn;
 }
 
-// TODO: Update video memory
 void Chip8::_op_DXYN(void) {
   uint8_t x = _registers[(_currentOpcode & 0x0EFF) >> 8];
   uint8_t y = _registers[(_currentOpcode & 0x00F0) >> 4];
   uint8_t n = (_currentOpcode & 0x000F);
 
-  printf("Draw @ (%x, %x) -> (8, %x)\n", x, y, n);
+  _registers[0xf] = false;
+  for (uint32_t h = 0; h < n; ++h) {
+    uint16_t pixel = _memory[_index + h];
+    for (uint32_t w = 0; w < 8; ++w) {
+      if ((pixel & (0x80 >> w)) != 0) {
+        if (_vmemory[y + h][x + w].isSet())
+          _registers[0xf] = true;
+        _vmemory[y + h][x + w].color(255, 255, 255);
+      }
+    }
+  }
+
   _redraw = true;
 }
 
