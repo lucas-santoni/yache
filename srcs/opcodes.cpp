@@ -30,7 +30,7 @@ void Chip8::_op_2NNN(void) {
 void Chip8::_op_3XNN(void) {
   if (_registers[(_currentOpcode & 0x0F00) >> 8] ==
       (_currentOpcode & 0x00FF))
-    _pc += sizeof(uint16_t);
+    _pc += 2;
 }
 
 void Chip8::_op_4XNN(void) {
@@ -38,7 +38,7 @@ void Chip8::_op_4XNN(void) {
   uint8_t nn = _currentOpcode & 0x00FF;
 
   if (_registers[x] != nn)
-    _pc += sizeof(uint16_t);
+    _pc += 2;
 }
 
 void Chip8::_op_5XY0(void) {
@@ -47,7 +47,7 @@ void Chip8::_op_5XY0(void) {
 }
 
 void Chip8::_op_6XNN(void) {
-  _registers[(_currentOpcode & 0x0F00) >> 8] = _currentOpcode & 0x00FF;
+  _registers[(_currentOpcode & 0x0F00) >> 8] = (_currentOpcode & 0x00FF);
 }
 
 void Chip8::_op_7XNN(void) {
@@ -73,7 +73,7 @@ void Chip8::_op_8XY2(void) {
   _registers[x] &= _registers[y];
 }
 
-void Chip8::_op_BXY3(void) {
+void Chip8::_op_8XY3(void) {
   printf("Not implemented.\n");
   exit(SUCCESS);
 }
@@ -130,24 +130,24 @@ void Chip8::_op_BNNN(void) {
 void Chip8::_op_CXNN(void) {
   uint8_t x = (_currentOpcode & 0x0F00) >> 8;
   uint8_t nn = _currentOpcode & 0x00FF;
-  uint8_t r = rand() % (0xff + 1);
+  uint8_t r = rand() % (0xff);
 
   _registers[x] = r & nn;
 }
 
 void Chip8::_op_DXYN(void) {
-  uint8_t x = _registers[(_currentOpcode & 0x0EFF) >> 8];
-  uint8_t y = _registers[(_currentOpcode & 0x00F0) >> 4];
-  uint8_t n = (_currentOpcode & 0x000F);
+  uint16_t x = _registers[(_currentOpcode & 0x0F00) >> 8];
+  uint16_t y = _registers[(_currentOpcode & 0x00F0) >> 4];
+  uint16_t n = (_currentOpcode & 0x000F);
 
   _registers[0xf] = false;
   for (uint32_t h = 0; h < n; ++h) {
     uint16_t pixel = _memory[_index + h];
     for (uint32_t w = 0; w < 8; ++w) {
       if ((pixel & (0x80 >> w)) != 0) {
-        if (_vmemory[y + h][x + w].isSet())
+        if (_vmemory.isSet(x + w, y + h))
           _registers[0xf] = true;
-        _vmemory[y + h][x + w].color(255, 255, 255);
+        _vmemory.toogle(x + w, y + h);
       }
     }
   }
@@ -165,7 +165,7 @@ void Chip8::_op_EXA1(void) {
   uint8_t x = (_currentOpcode & 0x0F00) >> 8;
 
   if (_keys[x])
-    _pc += sizeof(uint16_t);
+    _pc += 2;
 }
 
 void Chip8::_op_FX07(void) {
@@ -201,7 +201,7 @@ void Chip8::_op_FX33(void) {
   _memory[_index + 1] = (_registers[(_currentOpcode &
         0x0F00) >> 8] / 10) % 10;
   _memory[_index + 2] = (_registers[(_currentOpcode &
-        0x0F00) >> 8] % 100) % 10;
+        0x0F00) >> 8]) % 10;
 }
 
 void Chip8::_op_FX55(void) {

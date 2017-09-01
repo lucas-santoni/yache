@@ -10,5 +10,5 @@ namespace Specs {
 
   constexpr uint32_t WINDOW_WIDTH = 64;
   constexpr uint32_t WINDOW_HEIGHT = 32;
-  constexpr uint32_t VIDEO_MEMORY_SIZE = WINDOW_WIDTH * WINDOW_HEIGHT;
+  constexpr uint32_t FRAMEBUFFER_SIZE = WINDOW_WIDTH * WINDOW_HEIGHT * 4;
 }

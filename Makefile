@@ -12,8 +12,8 @@ LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 
 SRCS = srcs/main.cpp \
        srcs/Chip8.cpp \
-       srcs/Pixel.cpp \
-       srcs/opcodes.cpp
+       srcs/Pixels.cpp \
+       srcs/opcodes.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

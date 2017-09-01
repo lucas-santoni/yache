@@ -1,20 +1,12 @@
 #include <string>
-#include <functional>
 #include <array>
 #include <stack>
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
-#include "Pixel.hpp"
-#include "Specs.h"
-
-class Chip8;
-
-typedef struct {
-  uint16_t mask;
-  uint16_t key;
-  std::function<void(Chip8 *)> f;
-} opcode;
+#include "Pixels.hpp"
+#include "Specs.hpp"
+#include "opcode.hpp"
 
 class Chip8 {
   public:
@@ -43,15 +35,11 @@ class Chip8 {
     void _windowCycle(void);
 
   private:
-    std::array<std::array<Pixel,
-      Specs::WINDOW_WIDTH>, Specs::WINDOW_HEIGHT> _vmemory = {};
+    Pixels _vmemory;
     bool _redraw = true;
 
   public:
     void loadRomFromFile(const std::string& filePath);
-    void dumpMemory(uint32_t from = 0,
-        uint32_t to = Specs::MEMORY_SIZE) const;
-    void dumpVideoMemory(void) const;
     void cycle(void);
 
   private:
@@ -68,7 +56,7 @@ class Chip8 {
     void _op_8XY0(void);
     void _op_8XY1(void);
     void _op_8XY2(void);
-    void _op_BXY3(void);
+    void _op_8XY3(void);
     void _op_8XY4(void);
     void _op_8XY5(void);
     void _op_8XY6(void);
@@ -106,7 +94,7 @@ class Chip8 {
       {0xF00F, 0x8000, &Chip8::_op_8XY0}, /* 8XY0 */
       {0xF00F, 0x8001, &Chip8::_op_8XY1}, /* 8XY1 */
       {0xF00F, 0x8002, &Chip8::_op_8XY2}, /* 8XY2 */
-      {0xF00F, 0x8003, &Chip8::_op_BXY3}, /* BXY3 */
+      {0xF00F, 0x8003, &Chip8::_op_8XY3}, /* BXY3 */
       {0xF00F, 0x8004, &Chip8::_op_8XY4}, /* 8XY4 */
       {0xF00F, 0x8005, &Chip8::_op_8XY5}, /* 8XY5 */
       {0xF00F, 0x8006, &Chip8::_op_8XY6}, /* 8XY6 */
