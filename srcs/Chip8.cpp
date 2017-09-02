@@ -6,11 +6,10 @@
 
 Chip8::Chip8(void) :
   _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
-  _window(sf::VideoMode(Specs::WINDOW_WIDTH,
-        Specs::WINDOW_HEIGHT), "Yache")
+  _window(sf::VideoMode(Specs::WINDOW_WIDTH * 10,
+        Specs::WINDOW_HEIGHT * 10), "Yache")
 {
   _loadFontset();
-  _window.setVerticalSyncEnabled(true);
   _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);
   _sprite.setTexture(_texture);
 }
@@ -64,6 +63,7 @@ void Chip8::_windowCycle(void) {
   if (_redraw) {
     _texture.update(_vmemory.raw());
     _window.clear(sf::Color::Black);
+    _sprite.setScale(10, 10);
     _window.draw(_sprite);
     _window.display();
 

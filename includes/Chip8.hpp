@@ -31,6 +31,7 @@ class Chip8 {
 
   private:
     Pixels _vmemory;
+    uint32_t scale = 20;
     sf::RenderWindow _window;
     sf::Texture _texture;
     sf::Sprite _sprite;
