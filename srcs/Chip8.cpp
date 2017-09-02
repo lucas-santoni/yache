@@ -40,6 +40,8 @@ void Chip8::_windowCycle(void) {
     _window.clear(sf::Color::Black);
     _window.draw(_sprite);
     _window.display();
+
+    _redraw = false;
   }
 }
 
