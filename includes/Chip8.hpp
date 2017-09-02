@@ -13,6 +13,8 @@ class Chip8 {
     explicit Chip8(void);
 
   private:
+    constexpr void _loadFontset(void);
+  private:
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;

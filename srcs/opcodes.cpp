@@ -208,7 +208,7 @@ void Chip8::_op_FX55(void) {
 }
 
 void Chip8::_op_FX65(void) {
-  uint8_t x = _memory[(_currentOpcode & 0x0F00) >> 8];
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
 
   for (uint32_t i = 0; i <= x; ++i)
     _registers[i] = _memory[_index];
