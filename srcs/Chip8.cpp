@@ -5,9 +5,9 @@
 #include "colors.hpp"
 
 Chip8::Chip8(void) :
+  _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
   _window(sf::VideoMode(Specs::WINDOW_WIDTH,
-        Specs::WINDOW_HEIGHT), "Yache"),
-  _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT)
+        Specs::WINDOW_HEIGHT), "Yache")
 {
   _window.setVerticalSyncEnabled(true);
   _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);

@@ -28,18 +28,18 @@ class Chip8 {
     uint8_t _soundTimer = 0x000;
 
   private:
+    Pixels _vmemory;
     sf::RenderWindow _window;
     sf::Texture _texture;
     sf::Sprite _sprite;
     sf::Event _windowEvent;
-    void _windowCycle(void);
-
-  private:
-    Pixels _vmemory;
     bool _redraw = true;
 
   public:
     void loadRomFromFile(const std::string& filePath);
+
+  public:
+    void _windowCycle(void);
     void cycle(void);
 
   private:

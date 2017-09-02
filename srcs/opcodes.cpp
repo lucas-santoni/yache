@@ -78,7 +78,6 @@ void Chip8::_op_8XY3(void) {
   exit(SUCCESS);
 }
 
-// TODO: Problems may come from this
 void Chip8::_op_8XY4(void) {
   uint8_t x = (_currentOpcode & 0x0F00) >> 8;
   uint8_t y = (_currentOpcode & 0x00F0) >> 4;
@@ -190,7 +189,6 @@ void Chip8::_op_FX1E(void) {
   exit(SUCCESS);
 }
 
-// TODO: More research on this
 void Chip8::_op_FX29(void) {
   uint8_t x = (_currentOpcode & 0x0F00) >> 8;
   _index = _registers[x] * 0x5;

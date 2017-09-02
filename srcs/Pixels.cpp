@@ -18,9 +18,8 @@ void Pixels::toogle(uint32_t w, uint32_t h) {
     _pixels[(_width * h + w) * 4 + 1] = 255;
     _pixels[(_width * h + w) * 4 + 2] = 255;
     _pixels[(_width * h + w) * 4 + 3] = 255;
-  } else {
+  } else
     _pixels[(_width * h + w) * 4 + 3] = 0;
-  }
 }
 
 bool Pixels::isSet(uint32_t w, uint32_t h) {
