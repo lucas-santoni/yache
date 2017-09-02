@@ -30,8 +30,14 @@ class Chip8 {
     uint8_t _soundTimer = 0x000;
 
   private:
+    void _updateScale(void);
+    uint32_t _wScale = 25;
+    uint32_t _hScale = 35;
+    uint32_t _oldWScale = _wScale;
+    uint32_t _oldHScale = _hScale;
+
+  private:
     Pixels _vmemory;
-    uint32_t scale = 20;
     sf::RenderWindow _window;
     sf::Texture _texture;
     sf::Sprite _sprite;

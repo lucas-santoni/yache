@@ -6,8 +6,8 @@
 
 Chip8::Chip8(void) :
   _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
-  _window(sf::VideoMode(Specs::WINDOW_WIDTH * 10,
-        Specs::WINDOW_HEIGHT * 10), "Yache")
+  _window(sf::VideoMode(Specs::WINDOW_WIDTH * _wScale,
+        Specs::WINDOW_HEIGHT * _hScale), "Yache")
 {
   _loadFontset();
   _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);
@@ -52,18 +52,27 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
   rom.close();
 }
 
+void Chip8::_updateScale(void) {
+  _wScale = _window.getSize().x / _oldWScale;
+  _hScale = _window.getSize().y / _oldHScale;
+}
+
 void Chip8::_windowCycle(void) {
+  _oldWScale = _window.getSize().x;
+  _oldHScale = _window.getSize().x;
+
   while (_window.pollEvent(_windowEvent)) {
     if (_windowEvent.type == sf::Event::Closed) {
       _window.close();
       exit(SUCCESS);
+    } else if (_windowEvent.type == sf::Event::Resized) {
     }
   }
 
   if (_redraw) {
     _texture.update(_vmemory.raw());
     _window.clear(sf::Color::Black);
-    _sprite.setScale(10, 10);
+    _sprite.setScale(_wScale, _hScale);
     _window.draw(_sprite);
     _window.display();
 
