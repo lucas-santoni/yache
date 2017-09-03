@@ -38,11 +38,14 @@ class Chip8 {
     sf::Event _windowEvent;
     bool _redraw = true;
 
+  private:
+    void _windowCycle(void);
+    void _updateKeyStatus(void);
+
   public:
     void loadRomFromFile(const std::string& filePath);
 
   public:
-    void _windowCycle(void);
     void cycle(void);
 
   private:

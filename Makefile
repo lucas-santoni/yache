@@ -6,7 +6,7 @@ CXXFLAGS += -std=c++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
 CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return
-CXXFLAGS += -Wswitch-default -Wswitch-enum -Wunreachable-code -pedantic
+CXXFLAGS += -Wswitch-default -Wunreachable-code -pedantic
 
 LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 

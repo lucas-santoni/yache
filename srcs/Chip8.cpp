@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include "Chip8.hpp"
+#include "Keypad.hpp"
 #include "status.hpp"
 #include "colors.hpp"
 
@@ -53,11 +54,30 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
   rom.close();
 }
 
+void Chip8::_updateKeyStatus(void) {
+  for (auto& key : Keypad::keys)
+    if (sf::Keyboard::isKeyPressed(key.k))
+      _keys[key.i] = true;
+    else
+      _keys[key.i] = false;
+}
+
 void Chip8::_windowCycle(void) {
   while (_window.pollEvent(_windowEvent)) {
-    if (_windowEvent.type == sf::Event::Closed) {
-      _window.close();
-      exit(SUCCESS);
+    switch (_windowEvent.type) {
+      case sf::Event::Closed:
+        _window.close();
+        exit(SUCCESS);
+
+      case sf::Event::KeyPressed:
+        _updateKeyStatus();
+        break;
+      case sf::Event::KeyReleased:
+        _updateKeyStatus();
+        break;
+
+      default:
+        break;
     }
   }
 
