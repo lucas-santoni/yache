@@ -28,8 +28,10 @@ void Chip8::_op_2NNN(void) {
 }
 
 void Chip8::_op_3XNN(void) {
-  if (_registers[(_currentOpcode & 0x0F00) >> 8] ==
-      (_currentOpcode & 0x00FF))
+  uint8_t x = (_currentOpcode & 0x0F00) >> 8;
+  uint8_t nn = _currentOpcode & 0x00FF;
+
+  if (_registers[x] == nn)
     _pc += 2;
 }
 

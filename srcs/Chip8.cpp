@@ -10,6 +10,8 @@ Chip8::Chip8(void) :
   _window(sf::VideoMode(Specs::WINDOW_WIDTH * Specs::WINDOW_SCALE,
         Specs::WINDOW_HEIGHT * Specs::WINDOW_SCALE), "Yache")
 {
+  _window.setVerticalSyncEnabled(true);
+  _window.setFramerateLimit(60);
   _loadFontset();
   _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);
   _sprite.setTexture(_texture);
