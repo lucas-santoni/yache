@@ -10,6 +10,7 @@ namespace Specs {
 
   constexpr uint32_t WINDOW_WIDTH = 64;
   constexpr uint32_t WINDOW_HEIGHT = 32;
+  constexpr uint32_t WINDOW_SCALE = 14;
 
   constexpr uint32_t FONTSET_SIZE = 80;
 }

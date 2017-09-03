@@ -6,12 +6,13 @@
 
 Chip8::Chip8(void) :
   _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
-  _window(sf::VideoMode(Specs::WINDOW_WIDTH * _wScale,
-        Specs::WINDOW_HEIGHT * _hScale), "Yache")
+  _window(sf::VideoMode(Specs::WINDOW_WIDTH * Specs::WINDOW_SCALE,
+        Specs::WINDOW_HEIGHT * Specs::WINDOW_SCALE), "Yache")
 {
   _loadFontset();
   _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);
   _sprite.setTexture(_texture);
+  _sprite.scale(Specs::WINDOW_SCALE, Specs::WINDOW_SCALE);
 }
 
 constexpr void Chip8::_loadFontset(void) {
@@ -52,27 +53,17 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
   rom.close();
 }
 
-void Chip8::_updateScale(void) {
-  _wScale = _window.getSize().x / _oldWScale;
-  _hScale = _window.getSize().y / _oldHScale;
-}
-
 void Chip8::_windowCycle(void) {
-  _oldWScale = _window.getSize().x;
-  _oldHScale = _window.getSize().x;
-
   while (_window.pollEvent(_windowEvent)) {
     if (_windowEvent.type == sf::Event::Closed) {
       _window.close();
       exit(SUCCESS);
-    } else if (_windowEvent.type == sf::Event::Resized) {
     }
   }
 
   if (_redraw) {
     _texture.update(_vmemory.raw());
     _window.clear(sf::Color::Black);
-    _sprite.setScale(_wScale, _hScale);
     _window.draw(_sprite);
     _window.display();
 
@@ -91,6 +82,7 @@ void Chip8::cycle(void) {
     if ((_currentOpcode & op.mask) == op.key)
       return op.f(this);
 
-  fprintf(stderr, "NON EXISTING OPCODE : 0x%04x\nExiting.\n", _currentOpcode);
+  fprintf(stderr, "NON EXISTING OPCODE :"
+      " 0x%04x\nExiting.\n", _currentOpcode);
   exit(FAILURE);
 }

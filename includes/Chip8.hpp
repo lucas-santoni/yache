@@ -14,6 +14,7 @@ class Chip8 {
 
   private:
     constexpr void _loadFontset(void);
+
   private:
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
@@ -28,13 +29,6 @@ class Chip8 {
     std::array<bool, Specs::NUMBER_OF_KEYS> _keys = {};
     uint8_t _delayTimer = 0x000;
     uint8_t _soundTimer = 0x000;
-
-  private:
-    void _updateScale(void);
-    uint32_t _wScale = 25;
-    uint32_t _hScale = 35;
-    uint32_t _oldWScale = _wScale;
-    uint32_t _oldHScale = _hScale;
 
   private:
     Pixels _vmemory;
