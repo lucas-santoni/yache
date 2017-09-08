@@ -13,9 +13,6 @@ class Chip8 {
     explicit Chip8(void);
 
   private:
-    constexpr void _loadFontset(void);
-
-  private:
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;
@@ -39,13 +36,12 @@ class Chip8 {
     bool _redraw = true;
 
   private:
+    constexpr void _loadFontset(void);
     void _windowCycle(void);
     void _updateKeyStatus(void);
 
   public:
     void loadRomFromFile(const std::string& filePath);
-
-  public:
     void cycle(void);
 
   private:

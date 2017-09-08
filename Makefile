@@ -2,7 +2,7 @@ CXX := @clang++
 
 CXXFLAGS += -Iincludes/
 CXXFLAGS += -Werror -g3
-CXXFLAGS += -std=c++14
+CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
 CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return

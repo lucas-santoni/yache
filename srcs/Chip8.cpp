@@ -5,6 +5,11 @@
 #include "status.hpp"
 #include "colors.hpp"
 
+// Clear memory
+// Get an SFML window
+// Load the fonset
+// Link sprite and texture
+// Scale the whole
 Chip8::Chip8(void) :
   _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
   _window(sf::VideoMode(Specs::WINDOW_WIDTH * Specs::WINDOW_SCALE,
@@ -18,6 +23,7 @@ Chip8::Chip8(void) :
   _sprite.scale(Specs::WINDOW_SCALE, Specs::WINDOW_SCALE);
 }
 
+// Put the font bytes at the right place in memory
 constexpr void Chip8::_loadFontset(void) {
   constexpr std::array<uint8_t, Specs::FONTSET_SIZE> fontSet = {{
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -43,6 +49,9 @@ constexpr void Chip8::_loadFontset(void) {
   }
 }
 
+// Map the ROM in memory
+// This function is really cpp overkill
+// Plain C would be much clearer
 // TODO: Error handling
 void Chip8::loadRomFromFile(const std::string& filePath) {
   std::ifstream rom;
@@ -56,6 +65,7 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
   rom.close();
 }
 
+// Get any keyboard activity
 void Chip8::_updateKeyStatus(void) {
   for (auto& key : Keypad::keys)
     if (sf::Keyboard::isKeyPressed(key.k))
@@ -64,6 +74,10 @@ void Chip8::_updateKeyStatus(void) {
       _keys[key.i] = false;
 }
 
+// Update the window, every frame
+// If events, deal with them
+// Update all the pixel timeouts
+// If needed, redraw the screen
 void Chip8::_windowCycle(void) {
   while (_window.pollEvent(_windowEvent)) {
     switch (_windowEvent.type) {
@@ -77,11 +91,12 @@ void Chip8::_windowCycle(void) {
       case sf::Event::KeyReleased:
         _updateKeyStatus();
         break;
-
       default:
         break;
     }
   }
+
+  _vmemory.decAllStates();
 
   if (_redraw) {
     _texture.update(_vmemory.raw());
@@ -93,6 +108,9 @@ void Chip8::_windowCycle(void) {
   }
 }
 
+// A CPU cycle
+// Fetch opcode
+// If known, run the code
 // TODO: Cleaner error handling
 void Chip8::cycle(void) {
   _windowCycle();
