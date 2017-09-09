@@ -15,12 +15,10 @@ class Pixels {
     uint32_t _width = 0;
     uint32_t _height = 0;
 
-  private:
-    void _setPixel(uint32_t w, uint32_t h);
-    void _unsetPixel(uint32_t w, uint32_t h);
-
   public:
     sf::Uint8 *raw(void);
+    void setPixel(uint32_t w, uint32_t h);
+    void unsetPixel(uint32_t w, uint32_t h);
     void toogle(uint32_t w, uint32_t h);
     void decAllStates(void);
     bool isSet(uint32_t w, uint32_t h);

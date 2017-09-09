@@ -21,7 +21,7 @@ sf::Uint8 *Pixels::raw(void) {
 
 // Set a pixel
 // TODO: Change colour
-void Pixels::_setPixel(uint32_t w, uint32_t h) {
+void Pixels::setPixel(uint32_t w, uint32_t h) {
   _pixels[(_width * h + w) * 4] = 255;
   _pixels[(_width * h + w) * 4 + 1] = 255;
   _pixels[(_width * h + w) * 4 + 2] = 255;
@@ -32,7 +32,7 @@ void Pixels::_setPixel(uint32_t w, uint32_t h) {
 // Uset a pixel
 // Actually only set a timeout
 // decAllStates() may unset the pixel if the timeout ends
-void Pixels::_unsetPixel(uint32_t w, uint32_t h) {
+void Pixels::unsetPixel(uint32_t w, uint32_t h) {
   _pixelStates[_width * h + w].timeout = 1;
   _pixelStates[_width * h + w].active = false;
 }
@@ -42,9 +42,9 @@ void Pixels::_unsetPixel(uint32_t w, uint32_t h) {
 // TODO: Error handling
 void Pixels::toogle(uint32_t w, uint32_t h) {
   if (!isSet(w, h))
-    _setPixel(w, h);
+    setPixel(w, h);
   else
-    _unsetPixel(w, h);
+    unsetPixel(w, h);
 }
 
 // Decrease all timeouts

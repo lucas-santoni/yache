@@ -16,6 +16,11 @@ class Chip8 {
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;
+    uint8_t _x = 0;
+    uint8_t _y = 0;
+    uint8_t _n = 0;
+    uint8_t _nn = 0;
+    uint16_t _nnn = 0;
 
   private:
     std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {};
@@ -38,7 +43,9 @@ class Chip8 {
   private:
     constexpr void _loadFontset(void);
     void _windowCycle(void);
+    void _clearScreen(void);
     void _updateKeyStatus(void);
+    void _updateOpcodeArguments(void);
 
   public:
     void loadRomFromFile(const std::string& filePath);

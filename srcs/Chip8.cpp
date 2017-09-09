@@ -108,6 +108,21 @@ void Chip8::_windowCycle(void) {
   }
 }
 
+void Chip8::_clearScreen(void) {
+  for (uint32_t i = 0; i < _vmemory.width(); ++i) {
+    for (uint32_t j = 0; j < _vmemory.height(); ++j)
+      _vmemory.unsetPixel(i, j);
+  }
+}
+
+void Chip8::_updateOpcodeArguments(void) {
+  _x = (_currentOpcode & 0x0F00) >> 8;
+  _y = (_currentOpcode & 0x00F0) >> 4;
+  _n = _currentOpcode & 0x000F;
+  _nn = _currentOpcode & 0x00FF;
+  _nnn = _currentOpcode & 0x0FFF;
+}
+
 // A CPU cycle
 // Fetch opcode
 // If known, run the code
@@ -116,13 +131,13 @@ void Chip8::cycle(void) {
   _windowCycle();
 
   _currentOpcode = _memory[_pc] << 8 | _memory[_pc + 1];
+  _updateOpcodeArguments();
   _pc += 2;
 
+  // printf("%04x\n", _currentOpcode);
   for (auto& op : _opcodes)
-    if ((_currentOpcode & op.mask) == op.key)
-      return op.f(this);
-
-  fprintf(stderr, "NON EXISTING OPCODE :"
-      " 0x%04x\nExiting.\n", _currentOpcode);
-  exit(FAILURE);
+    if ((_currentOpcode & op.mask) == op.key) {
+      op.f(this);
+      break;
+    }
 }

@@ -1,7 +1,7 @@
 CXX := @clang++
 
 CXXFLAGS += -Iincludes/
-CXXFLAGS += -Werror -g3
+#CXXFLAGS += -Werror -g3
 CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
