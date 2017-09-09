@@ -3,10 +3,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-typedef struct {
-  uint32_t timeout;
-  bool active;
-} states;
+#include "state.hpp"
 
 class Pixels {
   public:
@@ -14,7 +11,7 @@ class Pixels {
 
   private:
     std::vector<sf::Uint8> _pixels;
-    std::vector<states> _pixelStates;
+    std::vector<state> _pixelStates;
     uint32_t _width = 0;
     uint32_t _height = 0;
 

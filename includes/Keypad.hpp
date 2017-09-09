@@ -1,14 +1,9 @@
 #pragma once
 
 #include <array>
-#include <SFML/Graphics.hpp>
 
 #include "Specs.hpp"
-
-typedef struct {
-  sf::Keyboard::Key k;
-  uint32_t i;
-} key;
+#include "key.hpp"
 
 namespace Keypad {
   constexpr std::array<key, Specs::NUMBER_OF_KEYS> keys = {{

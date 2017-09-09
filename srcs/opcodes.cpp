@@ -131,7 +131,7 @@ void Chip8::_op_BNNN(void) {
 void Chip8::_op_CXNN(void) {
   uint8_t x = (_currentOpcode & 0x0F00) >> 8;
   uint8_t nn = _currentOpcode & 0x00FF;
-  uint8_t r = rand() % (0xff);
+  uint8_t r = rand() % 0xff;
 
   _registers[x] = r & nn;
 }
