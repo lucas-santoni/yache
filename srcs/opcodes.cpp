@@ -161,7 +161,6 @@ void Chip8::_op_EX9E(void) {
   exit(SUCCESS);
 }
 
-// TODO: Check key pressing
 void Chip8::_op_EXA1(void) {
   uint8_t x = _registers[(_currentOpcode & 0x0F00) >> 8];
 
