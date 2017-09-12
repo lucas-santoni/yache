@@ -134,7 +134,6 @@ void Chip8::cycle(void) {
   _updateOpcodeArguments();
   _pc += 2;
 
-  // printf("%04x\n", _currentOpcode);
   for (auto& op : _opcodes)
     if ((_currentOpcode & op.mask) == op.key) {
       op.f(this);
