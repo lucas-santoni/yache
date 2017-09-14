@@ -13,7 +13,7 @@ class Chip8 {
     explicit Chip8(void);
 
   private:
-    std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {};
+    std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {{0x0}};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;
     uint8_t _x = 0;
@@ -23,12 +23,12 @@ class Chip8 {
     uint16_t _nnn = 0;
 
   private:
-    std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {};
+    std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {{0x0}};
     std::stack<uint16_t> _stack;
     uint16_t _index = 0x000;
 
   private:
-    std::array<bool, Specs::NUMBER_OF_KEYS> _keys = {};
+    std::array<bool, Specs::NUMBER_OF_KEYS> _keys = {{false}};
     uint8_t _delayTimer = 0x000;
     uint8_t _soundTimer = 0x000;
 
