@@ -2,3 +2,4 @@
 *.swp
 *.o
 yache
+.gdb_history
