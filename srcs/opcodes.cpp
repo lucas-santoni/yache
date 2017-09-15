@@ -31,8 +31,10 @@ void Chip8::_op_1NNN(void) {
 // Call subroutine
 // Push current pc on the stack
 void Chip8::_op_2NNN(void) {
-  _stack.push(_pc);
-  _pc = _nnn;
+  if (_stack.size() < Specs::STACK_LIMIT) {
+    _stack.push(_pc);
+    _pc = _nnn;
+  }
 }
 
 // Skip an instruction if a register
@@ -88,7 +90,7 @@ void Chip8::_op_8XY3(void) {
 // Addition
 // Set register f if carry
 void Chip8::_op_8XY4(void) {
-  uint32_t r = _registers[_x] + _registers[_y];
+  int32_t r = _registers[_x] + _registers[_y];
 
   _registers[0xf] = (r > 0xff);
   _registers[_x] += _registers[_y];
@@ -97,54 +99,67 @@ void Chip8::_op_8XY4(void) {
 
 // Soustraction
 void Chip8::_op_8XY5(void) {
-  uint32_t r = _registers[_x] - _registers[_y];
+  int32_t r = _registers[_x] - _registers[_y];
 
   _registers[0xf] = (r > 0x0);
   _registers[_x] -= _registers[_y];
 }
 
+// Get LSB
+// Bit shift
+// TODO: Not sure
 void Chip8::_op_8XY6(void) {
-  bool lsb = _y & 0xf;
+  bool lsb = _registers[_y] & true;
 
   _registers[0xf] = lsb;
   _registers[_x] = _registers[_y] >> 0x1;
 }
 
+// Another soustraction
 void Chip8::_op_8XY7(void) {
-  uint32_t r = _registers[_x] - _registers[_y];
+  int32_t r = _registers[_y] - _registers[_x];
 
   _registers[0xf] = (r > 0x0);
   _registers[_x] = _registers[_y] - _registers[_x];
 }
 
-// TODO: Check this MSB trick
+// Get MSB
+// Bit shift
+// TODO: Not sure
 void Chip8::_op_8XYE(void) {
-  bool msb = _y >> 12;
+  bool msb = (_registers[_y] & 0x80) != false;
 
   _registers[0xf] = msb;
-  _registers[_x] = _registers[_x] << 1;
+  _registers[_x] = _registers[_y] << 1;
 
 }
 
+// If registers differ
+// Skip next instructions
 void Chip8::_op_9XY0(void) {
   if (_registers[_x] != _registers[_y])
     _pc += 2;
 }
 
+// Hard set index
 void Chip8::_op_ANNN(void) {
   _index = _nnn;
 }
 
+// Hard set pc
 void Chip8::_op_BNNN(void) {
-  _pc = _nnn;
+  _pc = _registers[0] + _nnn;
 }
 
+// Random
 void Chip8::_op_CXNN(void) {
   uint8_t r = rand() % 0xff;
 
   _registers[_x] = r & _nn;
 }
 
+// Drawing
+// Update screen via xor (toggle) method
 void Chip8::_op_DXYN(void) {
   uint16_t x = _registers[_x];
   uint16_t y = _registers[_y];
@@ -164,18 +179,25 @@ void Chip8::_op_DXYN(void) {
   _redraw = true;
 }
 
+// If a key at register x is pressed,
+// skip next instruction
 void Chip8::_op_EX9E(void) {
-  if (_keys[_x])
-    _pc += 2;
-}
-
-void Chip8::_op_EXA1(void) {
   uint8_t k = _registers[_x];
 
   if (_keys[k])
     _pc += 2;
 }
 
+// If key at register x is not pressed,
+// skip next instruction
+void Chip8::_op_EXA1(void) {
+  uint8_t k = _registers[_x];
+
+  if (!_keys[k])
+    _pc += 2;
+}
+
+// Set register from delay timer
 void Chip8::_op_FX07(void) {
   _registers[_x] = _delayTimer;
 }
@@ -185,28 +207,34 @@ void Chip8::_op_FX0A(void) {
   exit(SUCCESS);
 }
 
+// Set delay timer
 void Chip8::_op_FX15(void) {
-  _delayTimer = _x;
+  _delayTimer = _registers[_x];
 }
 
+// Set sound timer
 void Chip8::_op_FX18(void) {
-  _soundTimer = _x;
+  _soundTimer = _registers[_x];
 }
 
+// Add something to index
 void Chip8::_op_FX1E(void) {
   _index += _registers[_x];
 }
 
+// Hard set index
 void Chip8::_op_FX29(void) {
   _index = _registers[_x] * 0x5;
 }
 
+// Spread byte in memory
 void Chip8::_op_FX33(void) {
   _memory[_index] = _registers[_x] / 100;
   _memory[_index + 1] = (_registers[_x] / 10) % 10;
-  _memory[_index + 2] = (_registers[_x]) % 10;
+  _memory[_index + 2] = _registers[_x] % 10;
 }
 
+// Set portion of memories from register
 void Chip8::_op_FX55(void) {
   for (auto i = 0; i <= _x; ++i)
     _memory[_index + i] = _registers[i];
@@ -214,6 +242,7 @@ void Chip8::_op_FX55(void) {
   _index += _x + 1;
 }
 
+// Set registers from a portion of memory
 void Chip8::_op_FX65(void) {
   for (auto i = 0; i <= _x; ++i)
     _registers[i] = _memory[_index];

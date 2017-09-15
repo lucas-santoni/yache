@@ -131,6 +131,7 @@ void Chip8::cycle(void) {
   _windowCycle();
 
   _currentOpcode = _memory[_pc] << 8 | _memory[_pc + 1];
+  //printf("Current opcode : [%04x]\n", _currentOpcode);
   _updateOpcodeArguments();
   _pc += 2;
 
@@ -139,4 +140,9 @@ void Chip8::cycle(void) {
       op.f(this);
       break;
     }
+
+  if (_delayTimer > 0)
+    --_delayTimer;
+  if (_soundTimer > 0)
+    --_soundTimer;
 }
