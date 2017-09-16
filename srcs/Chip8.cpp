@@ -44,9 +44,8 @@ constexpr void Chip8::_loadFontset(void) {
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
   }};
 
-  for (uint32_t i = 0; i < fontSet.size(); ++i) {
+  for (uint32_t i = 0; i < fontSet.size(); ++i)
     _memory[i] = fontSet[i];
-  }
 }
 
 // Map the ROM in memory
