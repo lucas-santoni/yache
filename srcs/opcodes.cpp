@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "Chip8.hpp"
 #include "status.hpp"
@@ -94,7 +94,6 @@ void Chip8::_op_8XY4(void) {
 
   _registers[0xf] = (r > 0xff);
   _registers[_x] += _registers[_y];
-
 }
 
 // Soustraction
@@ -222,7 +221,7 @@ void Chip8::_op_FX1E(void) {
 
 // Hard set index
 void Chip8::_op_FX29(void) {
-  _index = _registers[_x] * 0x5;
+  _index = (_registers[_x]) * 0x5;
 }
 
 // Spread byte in memory
@@ -243,7 +242,7 @@ void Chip8::_op_FX55(void) {
 // Set registers from a portion of memory
 void Chip8::_op_FX65(void) {
   for (auto i = 0; i <= _x; ++i)
-    _registers[i] = _memory[_index];
+    _registers[i] = _memory[_index + i];
 
   _index += _x + 1;
 }

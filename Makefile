@@ -1,7 +1,8 @@
 CXX := @clang++
 
 CXXFLAGS += -Iincludes/
-CXXFLAGS += -Werror -g3
+CXXFLAGS += -Werror
+CXXFLAGS += -g3
 CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
@@ -14,6 +15,7 @@ SRCS = srcs/main.cpp \
        srcs/Chip8.cpp \
        srcs/Pixels.cpp \
        srcs/opcodes.cpp \
+       srcs/debug.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

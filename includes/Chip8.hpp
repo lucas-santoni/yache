@@ -51,6 +51,10 @@ class Chip8 {
     void loadRomFromFile(const std::string& filePath);
     void cycle(void);
 
+  public:
+    void dumpMemory(uint32_t from = 0,
+        uint32_t to = Specs::MEMORY_SIZE - 1);
+
   private:
     void _op_0NNN(void);
     void _op_00E0(void);
