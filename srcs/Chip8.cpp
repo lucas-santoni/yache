@@ -108,6 +108,7 @@ void Chip8::_windowCycle(void) {
   }
 }
 
+// Clear the screen
 void Chip8::_clearScreen(void) {
   for (uint32_t i = 0; i < _vmemory.width(); ++i) {
     for (uint32_t j = 0; j < _vmemory.height(); ++j)
@@ -115,6 +116,8 @@ void Chip8::_clearScreen(void) {
   }
 }
 
+// Get all the potential opcodes
+// arguments
 void Chip8::_updateOpcodeArguments(void) {
   _x = (_currentOpcode & 0x0F00) >> 8;
   _y = (_currentOpcode & 0x00F0) >> 4;

@@ -107,7 +107,6 @@ void Chip8::_op_8XY5(void) {
 
 // Get LSB
 // Bit shift
-// TODO: Not sure
 void Chip8::_op_8XY6(void) {
   bool lsb = _registers[_y] & true;
 
@@ -125,7 +124,6 @@ void Chip8::_op_8XY7(void) {
 
 // Get MSB
 // Bit shift
-// TODO: Not sure
 void Chip8::_op_8XYE(void) {
   bool msb = (_registers[_y] & 0x80) != false;
 
