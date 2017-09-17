@@ -57,7 +57,8 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
 }
 
 // Get a reference to the keys
-const std::array<bool, Specs::NUMBER_OF_KEYS>& Chip8::getKeys(void) const {
+const std::array<bool, Specs::NUMBER_OF_KEYS>&
+  Chip8::getKeys(void) const {
   return _screen.getKeys();
 }
 

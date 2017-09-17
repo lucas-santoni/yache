@@ -29,7 +29,8 @@ const sf::Uint8 *Screen::raw(void) const {
   return _pixels.data();
 }
 
-const std::array<bool, Specs::NUMBER_OF_KEYS>& Screen::getKeys(void) const {
+const std::array<bool, Specs::NUMBER_OF_KEYS>&
+  Screen::getKeys(void) const {
   return _keys;
 }
 

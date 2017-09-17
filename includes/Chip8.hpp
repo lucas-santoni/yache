@@ -41,7 +41,8 @@ class Chip8 {
     void cycle(void);
 
   public:
-    const std::array<bool, Specs::NUMBER_OF_KEYS>& getKeys(void) const;
+    const std::array<bool, Specs::NUMBER_OF_KEYS>&
+      getKeys(void) const;
 
   public:
     void dumpMemory(uint32_t from = 0,

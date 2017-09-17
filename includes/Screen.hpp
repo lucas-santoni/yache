@@ -44,7 +44,8 @@ class Screen {
 
   public:
     const sf::Uint8 *raw(void) const;
-    const std::array<bool, Specs::NUMBER_OF_KEYS>& getKeys(void) const;
+    const std::array<bool, Specs::NUMBER_OF_KEYS>&
+      getKeys(void) const;
     bool isPixelSet(uint32_t w, uint32_t h) const;
     uint32_t width(void) const;
     uint32_t height(void) const;
