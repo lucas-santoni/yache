@@ -1,7 +1,7 @@
 #include <fstream>
 
 #include "Chip8.hpp"
-#include "Keypad.hpp"
+#include "Screen.hpp"
 #include "status.hpp"
 #include "colors.hpp"
 
@@ -11,16 +11,8 @@
 // Link sprite and texture
 // Scale the whole
 Chip8::Chip8(void) :
-  _vmemory(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT),
-  _window(sf::VideoMode(Specs::WINDOW_WIDTH * Specs::WINDOW_SCALE,
-        Specs::WINDOW_HEIGHT * Specs::WINDOW_SCALE), "Yache")
-{
-  _window.setVerticalSyncEnabled(true);
-  _window.setFramerateLimit(60);
+  _screen() {
   _loadFontset();
-  _texture.create(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT);
-  _sprite.setTexture(_texture);
-  _sprite.scale(Specs::WINDOW_SCALE, Specs::WINDOW_SCALE);
 }
 
 // Put the font bytes at the right place in memory
@@ -64,65 +56,19 @@ void Chip8::loadRomFromFile(const std::string& filePath) {
   rom.close();
 }
 
-// Get any keyboard activity
-void Chip8::_updateKeyStatus(void) {
-  for (auto& key : Keypad::keys)
-    if (sf::Keyboard::isKeyPressed(key.k))
-      _keys[key.i] = true;
-    else
-      _keys[key.i] = false;
-}
-
-// Update the window, every frame
-// If events, deal with them
-// Update all the pixel timeouts
-// If needed, redraw the screen
-void Chip8::_windowCycle(void) {
-  while (_window.pollEvent(_windowEvent)) {
-    switch (_windowEvent.type) {
-      case sf::Event::Closed:
-        _window.close();
-        exit(SUCCESS);
-
-      case sf::Event::KeyPressed:
-        _updateKeyStatus();
-        break;
-      case sf::Event::KeyReleased:
-        _updateKeyStatus();
-        break;
-      default:
-        break;
-    }
-  }
-
-  _vmemory.decAllStates();
-
-  if (_redraw) {
-    _texture.update(_vmemory.raw());
-    _window.clear(sf::Color::Black);
-    _window.draw(_sprite);
-    _window.display();
-
-    _redraw = false;
-  }
-}
-
-// Clear the screen
-void Chip8::_clearScreen(void) {
-  for (uint32_t i = 0; i < _vmemory.width(); ++i) {
-    for (uint32_t j = 0; j < _vmemory.height(); ++j)
-      _vmemory.unsetPixel(i, j);
-  }
+// Get a reference to the keys
+const std::array<bool, Specs::NUMBER_OF_KEYS>& Chip8::getKeys(void) const {
+  return _screen.getKeys();
 }
 
 // Get all the potential opcodes
 // arguments
 void Chip8::_updateOpcodeArguments(void) {
-  _x = (_currentOpcode & 0x0F00) >> 8;
-  _y = (_currentOpcode & 0x00F0) >> 4;
-  _n = _currentOpcode & 0x000F;
-  _nn = _currentOpcode & 0x00FF;
-  _nnn = _currentOpcode & 0x0FFF;
+  _arguments.x = (_currentOpcode & 0x0F00) >> 8;
+  _arguments.y = (_currentOpcode & 0x00F0) >> 4;
+  _arguments.n = _currentOpcode & 0x000F;
+  _arguments.nn = _currentOpcode & 0x00FF;
+  _arguments.nnn = _currentOpcode & 0x0FFF;
 }
 
 // A CPU cycle
@@ -130,10 +76,9 @@ void Chip8::_updateOpcodeArguments(void) {
 // If known, run the code
 // TODO: Cleaner error handling
 void Chip8::cycle(void) {
-  _windowCycle();
+  _screen.cycle();
 
   _currentOpcode = _memory[_pc] << 8 | _memory[_pc + 1];
-  //printf("Current opcode : [%04x]\n", _currentOpcode);
   _updateOpcodeArguments();
   _pc += 2;
 

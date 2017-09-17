@@ -7,13 +7,13 @@ CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
 CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return
-CXXFLAGS += -Wswitch-default -Wunreachable-code -pedantic
+CXXFLAGS += -Wswitch-default -Wunreachable-code -Wunused -pedantic
 
 LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 
 SRCS = srcs/main.cpp \
        srcs/Chip8.cpp \
-       srcs/Pixels.cpp \
+       srcs/Screen.cpp \
        srcs/opcodes.cpp \
        srcs/debug.cpp
 

@@ -4,10 +4,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Pixels.hpp"
+#include "Screen.hpp"
 #include "Specs.hpp"
+#include "OpcodeArguments.hpp"
 #include "opcode.hpp"
 
+// TODO: Make a friend debugger class
 class Chip8 {
   public:
     explicit Chip8(void);
@@ -16,11 +18,7 @@ class Chip8 {
     std::array<uint8_t, Specs::MEMORY_SIZE> _memory = {{0x0}};
     uint16_t _pc = Specs::ROM_OFFSET;
     uint16_t _currentOpcode = 0x0000;
-    uint8_t _x = 0;
-    uint8_t _y = 0;
-    uint8_t _n = 0;
-    uint8_t _nn = 0;
-    uint16_t _nnn = 0;
+    OpcodeArguments _arguments = {};
 
   private:
     std::array<uint8_t, Specs::NUMBER_OF_REGISTERS> _registers = {{0x0}};
@@ -28,28 +26,22 @@ class Chip8 {
     uint16_t _index = 0x000;
 
   private:
-    std::array<bool, Specs::NUMBER_OF_KEYS> _keys = {{false}};
     uint8_t _delayTimer = 0x000;
     uint8_t _soundTimer = 0x000;
 
   private:
-    Pixels _vmemory;
-    sf::RenderWindow _window;
-    sf::Texture _texture;
-    sf::Sprite _sprite;
-    sf::Event _windowEvent;
-    bool _redraw = true;
+    Screen _screen;
 
   private:
-    constexpr void _loadFontset(void);
-    void _windowCycle(void);
-    void _clearScreen(void);
-    void _updateKeyStatus(void);
     void _updateOpcodeArguments(void);
+    void constexpr _loadFontset(void);
 
   public:
     void loadRomFromFile(const std::string& filePath);
     void cycle(void);
+
+  public:
+    const std::array<bool, Specs::NUMBER_OF_KEYS>& getKeys(void) const;
 
   public:
     void dumpMemory(uint32_t from = 0,
