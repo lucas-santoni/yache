@@ -9,6 +9,8 @@
 // Which is size of row by the number of rows
 // plus the remaining columns
 // _pixelStates is used for timeouts on unset
+// Link sprite and texture
+// Scale the whole
 Screen::Screen(uint32_t w, uint32_t h) :
   _pixels(w * h * 4, 0),
   _pixelStates(w * h, {0, false}),

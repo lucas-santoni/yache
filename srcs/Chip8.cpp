@@ -6,10 +6,8 @@
 #include "colors.hpp"
 
 // Clear memory
-// Get an SFML window
+// Get a screen (SFML window/context)
 // Load the fonset
-// Link sprite and texture
-// Scale the whole
 Chip8::Chip8(void) :
   _screen() {
   _loadFontset();
@@ -62,8 +60,7 @@ const std::array<bool, Specs::NUMBER_OF_KEYS>&
   return _screen.getKeys();
 }
 
-// Get all the potential opcodes
-// arguments
+// Get all the potential opcodes arguments
 void Chip8::_updateOpcodeArguments(void) {
   _arguments.x = (_currentOpcode & 0x0F00) >> 8;
   _arguments.y = (_currentOpcode & 0x00F0) >> 4;
@@ -74,8 +71,13 @@ void Chip8::_updateOpcodeArguments(void) {
 
 // A CPU cycle
 // Fetch opcode
-// If known, run the code
+// Get all potential arguments
+// If opcode is known, run the code
+// Update timers
 // TODO: Cleaner error handling
+// TODO: Regulate timers
+// TODO: Sync the whole sync
+// at a constante rate (maybe to the timers once regulated ?)
 void Chip8::cycle(void) {
   _screen.cycle();
 
