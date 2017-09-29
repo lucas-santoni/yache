@@ -79,7 +79,7 @@ void Screen::decAllStates(void) {
 }
 
 // _redraw attribute accessor
-void Screen::redraw(bool state) {
+void Screen::setRedraw(bool state) {
   _redraw = state;
 }
 
@@ -105,6 +105,20 @@ void Screen::_updateKeyStatus(void) {
       _keys[key.i] = true;
     else
       _keys[key.i] = false;
+}
+
+uint8_t Screen::getKeyPressed(void) const {
+  for (uint8_t i = 0; i < Specs::NUMBER_OF_KEYS; ++i)
+    if (_keys[i])
+      return i;
+  return FAILURE;
+}
+
+bool Screen::isAKeyPressed(void) const {
+  for (auto& key : _keys)
+    if (key)
+      return true;
+  return false;
 }
 
 // Update the window, every frame
@@ -134,7 +148,7 @@ void Screen::cycle(void) {
 
   if (_redraw) {
     _texture.update(raw());
-    _window.clear(sf::Color::Black);
+    _window.clear();
     _window.draw(_sprite);
     _window.display();
 

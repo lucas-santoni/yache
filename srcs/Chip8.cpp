@@ -76,7 +76,7 @@ void Chip8::_updateOpcodeArguments(void) {
 // Update timers
 // TODO: Cleaner error handling
 // TODO: Regulate timers
-// TODO: Sync the whole sync
+// TODO: Sync the whole thing
 // at a constante rate (maybe to the timers once regulated ?)
 void Chip8::cycle(void) {
   _screen.cycle();

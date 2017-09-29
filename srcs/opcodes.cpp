@@ -173,7 +173,7 @@ void Chip8::_op_DXYN(void) {
     }
   }
 
-  _screen.redraw(true);
+  _screen.setRedraw(true);
 }
 
 // If a key at register x is pressed,
@@ -199,10 +199,13 @@ void Chip8::_op_FX07(void) {
   _registers[_arguments.x] = _delayTimer;
 }
 
-// TODO: Implement this
+// Wait for a keypress (blocking)
+// and store result in register x
 void Chip8::_op_FX0A(void) {
-  printf("Not implemented.\n");
-  exit(SUCCESS);
+  if (!_screen.isAKeyPressed())
+    _pc -= 2;
+  else
+    _registers[_arguments.x] = _screen.getKeyPressed();
 }
 
 // Set delay timer

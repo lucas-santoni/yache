@@ -40,7 +40,7 @@ class Screen {
     void setPixel(uint32_t w, uint32_t h);
     void toogle(uint32_t w, uint32_t h);
     void decAllStates(void);
-    void redraw(bool state);
+    void setRedraw(bool state);
 
   public:
     const sf::Uint8 *raw(void) const;
@@ -49,4 +49,6 @@ class Screen {
     bool isPixelSet(uint32_t w, uint32_t h) const;
     uint32_t width(void) const;
     uint32_t height(void) const;
+    uint8_t getKeyPressed(void) const;
+    bool isAKeyPressed(void) const;
 };
