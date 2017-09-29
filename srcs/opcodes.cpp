@@ -118,7 +118,8 @@ void Chip8::_op_8XY7(void) {
   int32_t r = _registers[_arguments.y] - _registers[_arguments.x];
 
   _registers[0xf] = (r > 0x0);
-  _registers[_arguments.x] = _registers[_arguments.y] - _registers[_arguments.x];
+  _registers[_arguments.x] = _registers[_arguments.y] -
+    _registers[_arguments.x];
 }
 
 // Get MSB
