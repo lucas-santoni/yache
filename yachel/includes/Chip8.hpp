@@ -2,6 +2,7 @@
 #include <array>
 #include <stack>
 
+#include "Status.hpp"
 #include "Specs.hpp"
 #include "Opcode.hpp"
 #include "OpcodeArguments.hpp"
@@ -50,7 +51,7 @@ namespace Yachel {
     private:
       uint8_t _delayTimer = 0x000;
       uint8_t _soundTimer = 0x000;
-      bool _keyPressed = false;
+      int32_t _keyPressed = Yachel::FAILURE;
 
     private:
       void _op_0NNN(void);

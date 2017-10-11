@@ -35,6 +35,7 @@ void Yachel::Chip8::setClock(uint32_t customRate, uint32_t customFps) {
 // TODO: Cleaner error handling
 void Yachel::Chip8::cycle(void) {
   _redraw = false;
+
   _currentOpcode = _ram[_pc] << 8 | _ram[_pc + 1];
   _updateOpcodeArguments();
   _pc += 2;
@@ -59,6 +60,8 @@ void Yachel::Chip8::tick(void) {
     --_delayTimer;
   if (_soundTimer > 0)
     --_soundTimer;
+
+  _keyPressed = Yachel::FAILURE;
 }
 
 // Get screen state
@@ -73,9 +76,14 @@ bool Yachel::Chip8::shouldRedraw(void) const {
 }
 
 // Recieve a key pressed event
+// Keep an eye on the first pressed key
+// in case there is more than one per tick
 // TODO: Error handling
 void Yachel::Chip8::keyPressed(uint8_t id) {
   _keys[id] = true;
+
+  if (_keyPressed == Yachel::FAILURE)
+    _keyPressed = id;
 }
 
 // Recieve a key released event

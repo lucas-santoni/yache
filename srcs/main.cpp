@@ -1,15 +1,14 @@
 #include "Yachel.hpp"
 #include "MonochromeDisplayKeypad.hpp"
-#include "Status.hpp"
 
 int main(int argc, const char *argv[]) {
   if (argc < 2)
-    return FAILURE;
+    return Yachel::FAILURE;
   ++argv;
 
   Yachel::Chip8 chip8;
   chip8.load(*argv);
-  chip8.setClock(500);
+  chip8.setClock(400);
 
   sf::MonochromeDisplayKeypad view(Yachel::Specs::WINDOW_WIDTH,
       Yachel::Specs::WINDOW_HEIGHT, 20, "Yache");
@@ -21,5 +20,5 @@ int main(int argc, const char *argv[]) {
     view.refresh(chip8);
   }
 
-  return SUCCESS;
+  return Yachel::SUCCESS;
 }

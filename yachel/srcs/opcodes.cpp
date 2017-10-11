@@ -199,13 +199,12 @@ void Yachel::Chip8::_op_FX07(void) {
 }
 
 // Wait for a keypress (blocking)
-// and store result in register x
-// TODO: Get latest key pressed
+// and store id in register x
 void Yachel::Chip8::_op_FX0A(void) {
-  if (!_keyPressed)
+  if (_keyPressed == Yachel::FAILURE)
     _pc -= 2;
   else
-    _registers[_arguments.x] = true;
+    _registers[_arguments.x] = _keyPressed;
 }
 
 // Set delay timer
