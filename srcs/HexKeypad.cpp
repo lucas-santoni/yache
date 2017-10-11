@@ -1,12 +1,9 @@
-#pragma once
+#include "HexKeypad.hpp"
+#include "Status.hpp"
 
-#include <array>
-
-#include "Specs.hpp"
-#include "key.hpp"
-
-namespace Keypad {
-  constexpr std::array<key, Specs::NUMBER_OF_KEYS> keys = {{
+// Check if the pressed key is interesting for us
+int32_t HexKeypad::getKeyId(const sf::Keyboard::Key& k) const {
+  static constexpr std::array<Key, Yachel::Specs::NUMBER_OF_KEYS> _keys = {{
     {sf::Keyboard::Num1, 0x1},
     {sf::Keyboard::Num2, 0x2},
     {sf::Keyboard::Num3, 0x3},
@@ -24,4 +21,15 @@ namespace Keypad {
     {sf::Keyboard::C, 0xb},
     {sf::Keyboard::V, 0xf}
   }};
+
+  // Return id if key is interesting
+  // id can then be passed to chip8
+  for (const auto& key : _keys) {
+    if (key.k == k) {
+      return key.id;
+    }
+  }
+
+  // If not, return -1
+  return FAILURE;
 }

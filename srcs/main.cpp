@@ -1,22 +1,25 @@
-#include "Chip8.hpp"
-#include "status.hpp"
+#include "Yachel.hpp"
+#include "MonochromeDisplayKeypad.hpp"
+#include "Status.hpp"
 
-// Entry point
-// Get a chip8
-// Load a ROM
-// Loop forever
-// TODO: Clean CLI arguments parsing
-int main(int argc, char *const argv[]) {
+int main(int argc, const char *argv[]) {
   if (argc < 2)
     return FAILURE;
-
-  Chip8 chip;
-
   ++argv;
-  chip.loadRomFromFile(*argv);
 
-  for (;;)
-    chip.cycle();
+  Yachel::Chip8 chip8;
+  chip8.load(*argv);
+  chip8.setClock(500);
+
+  sf::MonochromeDisplayKeypad view(Yachel::Specs::WINDOW_WIDTH,
+      Yachel::Specs::WINDOW_HEIGHT, 20, "Yache");
+  view.setColors(sf::Color(40, 40, 40), sf::Color(168, 153, 132));
+
+  while (view.isOpen()) {
+    chip8.tick();
+    view.update(chip8.getScreen());
+    view.refresh(chip8);
+  }
 
   return SUCCESS;
 }

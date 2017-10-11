@@ -1,7 +1,7 @@
 CXX := @clang++
 
-CXXFLAGS += -Iincludes/
-CXXFLAGS += -Werror
+CXXFLAGS += -Iincludes/ -Iyachel/
+#CXXFLAGS += -Werror
 CXXFLAGS += -g3
 CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
@@ -12,10 +12,10 @@ CXXFLAGS += -Wswitch-default -Wunreachable-code -Wunused -pedantic
 LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 
 SRCS = srcs/main.cpp \
-       srcs/Chip8.cpp \
-       srcs/Screen.cpp \
-       srcs/opcodes.cpp \
-       srcs/debug.cpp
+       srcs/MonochromeDisplay.cpp \
+       srcs/HexKeypad.cpp \
+       yachel/srcs/Chip8.cpp \
+       yachel/srcs/opcodes.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
