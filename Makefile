@@ -15,7 +15,8 @@ SRCS = srcs/main.cpp \
        srcs/MonochromeDisplay.cpp \
        srcs/HexKeypad.cpp \
        yachel/srcs/Chip8.cpp \
-       yachel/srcs/opcodes.cpp
+       yachel/srcs/Screen.cpp \
+       yachel/srcs/opcodes.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

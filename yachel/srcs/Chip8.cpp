@@ -3,7 +3,8 @@
 #include "../includes/Chip8.hpp"
 
 // Basic constructor
-Yachel::Chip8::Chip8(void) {
+Yachel::Chip8::Chip8(void) :
+  _vram(Specs::WINDOW_WIDTH, Specs::WINDOW_HEIGHT) {
   _loadFontset();
 }
 
@@ -45,6 +46,8 @@ void Yachel::Chip8::cycle(void) {
       op.f(this);
       break;
     }
+
+  _vram.handleMeta();
 }
 
 // Cycle for _clock times
@@ -65,9 +68,9 @@ void Yachel::Chip8::tick(void) {
 }
 
 // Get screen state
-const std::array<bool, Yachel::Specs::WINDOW_SIZE>&
+const std::vector<bool>&
   Yachel::Chip8::getScreen(void) const {
-    return _vram;
+    return _vram.what();
 }
 
 // Has the vram changed ?

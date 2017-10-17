@@ -8,6 +8,7 @@
 #include "Specs.hpp"
 #include "Opcode.hpp"
 #include "OpcodeArguments.hpp"
+#include "Screen.hpp"
 
 // A chip8 device
 namespace Yachel {
@@ -21,8 +22,7 @@ namespace Yachel {
           uint32_t customFps = Yachel::Specs::DEFAULT_FPS);
       void cycle(void);
       void tick(void);
-      const std::array<bool, Yachel::Specs::WINDOW_SIZE>&
-        getScreen(void) const;
+      const std::vector<bool>& getScreen(void) const;
       bool shouldRedraw(void) const;
       void keyPressed(uint8_t id);
       void keyReleased(uint8_t id);
@@ -36,7 +36,7 @@ namespace Yachel {
       bool _redraw = false;
       uint32_t _clock = Yachel::Specs::DEFAULT_RATE /
         Yachel::Specs::DEFAULT_FPS;
-      std::array<bool, Yachel::Specs::WINDOW_SIZE> _vram = {};
+      Screen _vram;
 
     private:
       std::array<uint8_t, Specs::MEMORY_SIZE> _ram = {};

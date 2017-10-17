@@ -7,8 +7,8 @@ void Yachel::Chip8::_op_0NNN(void) {
 
 // Clear the screen
 void Yachel::Chip8::_op_00E0(void) {
-  for (auto& v : _vram)
-    v = 0;
+  for (uint32_t i = 0; i < Yachel::Specs::WINDOW_SIZE; ++i)
+    _vram.unsetPixel(i);
 }
 
 // Return from subroutine
@@ -160,13 +160,14 @@ void Yachel::Chip8::_op_DXYN(void) {
   uint16_t y = _registers[_arguments.y];
 
   _registers[0xf] = false;
+
   for (auto h = 0; h < _arguments.n; ++h) {
     uint16_t pixel = _ram[_index + h];
     for (auto w = 0; w < 8; ++w) {
-      if ((pixel & (0x80 >> w)) != 0) {
-        if (_vram[x + w + ((y + h) * Yachel::Specs::WINDOW_WIDTH)])
+      if ((pixel & (0x80 >> w))) {
+        if (_vram.isPixelSet(x + w, y + h))
           _registers[0xf] = true;
-        _vram[x + w + ((y + h) * Yachel::Specs::WINDOW_WIDTH)] ^= true;
+        _vram.tooglePixel(x + w, y + h);
         _redraw = true;
       }
     }
@@ -178,9 +179,8 @@ void Yachel::Chip8::_op_DXYN(void) {
 void Yachel::Chip8::_op_EX9E(void) {
   uint8_t k = _registers[_arguments.x];
 
-  if (_keys[k]) {
+  if (_keys[k])
     _pc += 2;
-  }
 }
 
 // If key at register x is not pressed,
