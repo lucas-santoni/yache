@@ -3,8 +3,9 @@
 #include <cstdint>
 #include <vector>
 
-#define TIMEOUT (0)
+#define TIMEOUT (8)
 
+// TODO: Fix bug in INVADERS
 namespace Yachel {
   typedef struct {
     bool active = false;

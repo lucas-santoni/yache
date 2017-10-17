@@ -52,9 +52,9 @@ void Yachel::Screen::tooglePixel(uint32_t i) {
 
 void Yachel::Screen::handleMeta(void) {
   for (uint32_t i = 0; i < _meta.size(); ++i) {
-    if (_meta[i].timeout == 0 && !_meta[i].active && _screen[i])
-      _screen[i] = false;
     if (_meta[i].timeout > 0)
       --_meta[i].timeout;
+    else if (_meta[i].timeout == 0 && !isPixelSet(i))
+      unsetPixel(i);
   }
 }

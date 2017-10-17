@@ -36,6 +36,7 @@ void Yachel::Chip8::setClock(uint32_t customRate, uint32_t customFps) {
 // TODO: Cleaner error handling
 void Yachel::Chip8::cycle(void) {
   _redraw = false;
+  _vram.handleMeta();
 
   _currentOpcode = _ram[_pc] << 8 | _ram[_pc + 1];
   _updateOpcodeArguments();
@@ -46,8 +47,6 @@ void Yachel::Chip8::cycle(void) {
       op.f(this);
       break;
     }
-
-  _vram.handleMeta();
 }
 
 // Cycle for _clock times
