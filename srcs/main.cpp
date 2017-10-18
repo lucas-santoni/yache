@@ -16,7 +16,8 @@ int main(int argc, const char *argv[]) {
 
   while (view.isOpen()) {
     chip8.tick();
-    view.update(chip8.getScreen());
+    if (chip8.shouldRedraw())
+      view.update(chip8.getScreen());
     view.refresh(chip8);
   }
 

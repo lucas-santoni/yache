@@ -152,9 +152,9 @@ void Yachel::Chip8::_op_CXNN(void) {
   _registers[_arguments.x] = r & _arguments.nn;
 }
 
-// If pixel must be set, set it
-// If pixem must be unset, allow it a timeout
-// .active allows to still hanlde collisions
+// This is where the drawing is done
+// _redraw is the sentinel which informs
+// that the sprite should be refreshed
 void Yachel::Chip8::_op_DXYN(void) {
   uint16_t x = _registers[_arguments.x];
   uint16_t y = _registers[_arguments.y];

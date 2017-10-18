@@ -35,7 +35,6 @@ void Yachel::Chip8::setClock(uint32_t customRate, uint32_t customFps) {
 // Update timers
 // TODO: Cleaner error handling
 void Yachel::Chip8::cycle(void) {
-  _redraw = false;
   _vram.handleMeta();
 
   _currentOpcode = _ram[_pc] << 8 | _ram[_pc + 1];
@@ -54,7 +53,11 @@ void Yachel::Chip8::cycle(void) {
 // in one frame
 // This number is calculated based on the desired rate for the emulator,
 // divided by the number of FPS the screen will be displayed at
+// _redraw is false at beginning of tick and my be set to true by any
+// of the cycles
 void Yachel::Chip8::tick(void) {
+  _redraw = false;
+
   for (uint32_t i = 0; i < _clock ; ++i)
     cycle();
 
