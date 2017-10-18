@@ -21,5 +21,6 @@ namespace Yachel {
 
     constexpr uint32_t DEFAULT_RATE = 500;
     constexpr uint32_t DEFAULT_FPS = 60;
+    constexpr uint32_t DEFAULT_TIMEOUT = 8;
   }
 }

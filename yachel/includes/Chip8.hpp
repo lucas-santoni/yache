@@ -20,6 +20,7 @@ namespace Yachel {
       void load(const std::string& romPath);
       void setClock(uint32_t customClock,
           uint32_t customFps = Yachel::Specs::DEFAULT_FPS);
+      void setTimeout(uint32_t timeout);
       void cycle(void);
       void tick(void);
       const std::vector<bool>& getScreen(void) const;
@@ -30,7 +31,6 @@ namespace Yachel {
     private:
       constexpr void _loadFontset(void);
       void _updateOpcodeArguments(void);
-      void _handleTimeouts(void);
 
     private:
       bool _redraw = false;

@@ -28,6 +28,11 @@ void Yachel::Chip8::setClock(uint32_t customRate, uint32_t customFps) {
   _clock = customRate / customFps;
 }
 
+// Change timeout of underlying Screen
+void Yachel::Chip8::setTimeout(uint32_t timeout) {
+  _vram.setTimeout(timeout);
+}
+
 // A CPU cycle
 // Fetch opcode
 // Get all potential arguments

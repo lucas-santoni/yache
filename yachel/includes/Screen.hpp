@@ -3,26 +3,33 @@
 #include <cstdint>
 #include <vector>
 
-#define TIMEOUT (8)
+#include "Specs.hpp"
+#include "PixelMeta.hpp"
 
-// TODO: Fix bug in INVADERS
+// This class is a container for a vector of booleans
+// This vector represents a screen
+// This screen is flickering-proof using a timeout system
+// Because of the way it is built, the Chip8 flickers and this class
+// can fix that
 namespace Yachel {
-  typedef struct {
-    bool active = false;
-    uint32_t timeout = 0;
-  } PixelMeta;
-
   class Screen {
     public:
-      explicit Screen(uint32_t w, uint32_t h);
+      explicit Screen(uint32_t w, uint32_t h,
+          uint32_t timeout=Yachel::Specs::DEFAULT_TIMEOUT);
 
     private:
       std::vector<bool> _screen;
       std::vector<PixelMeta> _meta;
+
+    private:
       uint32_t _width;
+      uint32_t _timeout;
 
     public:
       const std::vector<bool>& what(void) const;
+      void setTimeout(uint32_t timeout);
+
+    public:
       bool isPixelSet(uint32_t w, uint32_t h) const;
       bool isPixelSet(uint32_t i) const;
       void setPixel(uint32_t w, uint32_t h);

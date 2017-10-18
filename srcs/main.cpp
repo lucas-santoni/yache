@@ -9,6 +9,7 @@ int main(int argc, const char *argv[]) {
   Yachel::Chip8 chip8;
   chip8.load(*argv);
   chip8.setClock(400);
+  chip8.setTimeout(5);
 
   sf::MonochromeDisplayKeypad view(Yachel::Specs::WINDOW_WIDTH,
       Yachel::Specs::WINDOW_HEIGHT, 20, "Yache");
