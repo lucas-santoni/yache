@@ -25,7 +25,6 @@ int main(int argc, const char *argv[]) {
   return Yachel::SUCCESS;
 }*/
 
-#include <stdio.h>
 int main(int argc, const char *argv[]) {
   if (argc < 2)
     return Yachel::FAILURE;
@@ -40,9 +39,8 @@ int main(int argc, const char *argv[]) {
   debugger.breakOn(0x200);
 
   while (true) {
-    printf("0x%02x\n", debugger.pc());
-    debugger.update();
     chip8.tick();
+    debugger.update();
   }
 
   return Yachel::SUCCESS;
