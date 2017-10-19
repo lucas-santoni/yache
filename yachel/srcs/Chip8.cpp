@@ -38,8 +38,12 @@ void Yachel::Chip8::setTimeout(uint32_t timeout) {
 // Get all potential arguments
 // If opcode is known, run the code
 // Update timers
+// Does not do anything if paused
 // TODO: Cleaner error handling
 void Yachel::Chip8::cycle(void) {
+  if (paused())
+    return;
+
   _vram.handleMeta();
 
   _currentOpcode = _ram[_pc] << 8 | _ram[_pc + 1];
@@ -72,6 +76,23 @@ void Yachel::Chip8::tick(void) {
     --_soundTimer;
 
   _keyPressed = Yachel::FAILURE;
+}
+
+// Pause emulation
+// Cycles does nothing during the pause
+// _pc is not incremented
+void Yachel::Chip8::pause(void) {
+  _paused = true;
+}
+
+// Resume emulation
+void Yachel::Chip8::resume(void) {
+  _paused = false;
+}
+
+// Is the emulation paused ?
+bool Yachel::Chip8::paused(void) const {
+  return _paused;
 }
 
 // Get screen state

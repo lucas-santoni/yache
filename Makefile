@@ -9,13 +9,13 @@ CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
 CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return
 CXXFLAGS += -Wswitch-default -Wunreachable-code -Wunused -pedantic
 
-LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
+#LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 
 SRCS = srcs/main.cpp \
-       srcs/MonochromeDisplay.cpp \
-       srcs/HexKeypad.cpp \
        yachel/srcs/Chip8.cpp \
        yachel/srcs/Screen.cpp \
+       yachel/srcs/Debugger.cpp \
+       yachel/srcs/Breakpoint.cpp \
        yachel/srcs/opcodes.cpp \
 
 OBJS = $(SRCS:.cpp=.o)

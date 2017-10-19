@@ -13,6 +13,8 @@
 // A chip8 device
 namespace Yachel {
   class Chip8 {
+    friend class Debugger;
+
     public:
       explicit Chip8(void);
 
@@ -23,6 +25,9 @@ namespace Yachel {
       void setTimeout(uint32_t timeout);
       void cycle(void);
       void tick(void);
+      void pause(void);
+      bool paused(void) const;
+      void resume(void);
       const std::vector<bool>& getScreen(void) const;
       bool shouldRedraw(void) const;
       void keyPressed(uint8_t id);
@@ -34,6 +39,7 @@ namespace Yachel {
 
     private:
       bool _redraw = false;
+      bool _paused = false;
       uint32_t _clock = Yachel::Specs::DEFAULT_RATE /
         Yachel::Specs::DEFAULT_FPS;
       Screen _vram;

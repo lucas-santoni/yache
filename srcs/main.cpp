@@ -1,5 +1,5 @@
 #include "Yachel.hpp"
-#include "MonochromeDisplayKeypad.hpp"
+/*#include "MonochromeDisplayKeypad.hpp"
 
 int main(int argc, const char *argv[]) {
   if (argc < 2)
@@ -23,4 +23,27 @@ int main(int argc, const char *argv[]) {
   }
 
   return Yachel::SUCCESS;
-}
+}*/
+
+#include <stdio.h>
+int main(int argc, const char *argv[]) {
+  if (argc < 2)
+    return Yachel::FAILURE;
+  ++argv;
+
+  Yachel::Chip8 chip8;
+  chip8.load(*argv);
+  chip8.setClock(400);
+  chip8.setTimeout(5);
+
+  Yachel::Debugger debugger(chip8);
+  debugger.breakOn(0x200);
+
+  while (true) {
+    printf("0x%02x\n", debugger.pc());
+    debugger.update();
+    chip8.tick();
+  }
+
+  return Yachel::SUCCESS;
+} /**/
