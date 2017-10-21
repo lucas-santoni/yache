@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 // A monochromatic display built on top of SFML
 // Takes an array of booleans to display things
