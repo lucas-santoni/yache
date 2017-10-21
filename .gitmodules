@@ -1,0 +1,3 @@
+[submodule "yachel"]
+	path = yachel
+	url = git@github.com:Geospace/yachel.git
