@@ -18,6 +18,7 @@ SRCS = srcs/main.cpp \
        yachel/srcs/Screen.cpp \
        yachel/srcs/Debugger.cpp \
        yachel/srcs/Breakpoint.cpp \
+       yachel/srcs/Exceptions.cpp \
        yachel/srcs/opcodes.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
