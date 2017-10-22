@@ -6,7 +6,6 @@ CXXFLAGS += -g3
 CXXFLAGS += -std=gnu++14
 CXXFLAGS += -O2
 CXXFLAGS += -Wextra -Wall -Wshadow -Wfloat-equal -Wundef -Wpointer-arith
-CXXFLAGS += -Wcast-align -Wstrict-prototypes -Waggregate-return
 CXXFLAGS += -Wswitch-default -Wunreachable-code -Wunused -pedantic
 
 LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
