@@ -11,6 +11,7 @@ CXXFLAGS += -Wswitch-default -Wunreachable-code -Wunused -pedantic
 LDFLAGS += -lsfml-window -lsfml-graphics -lsfml-system
 
 SRCS = srcs/main.cpp \
+       srcs/start.cpp \
        srcs/MonochromeDisplay.cpp \
        srcs/HexKeypad.cpp \
        yachel/srcs/Chip8.cpp \
