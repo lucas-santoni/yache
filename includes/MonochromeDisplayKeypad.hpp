@@ -4,6 +4,10 @@
 #include "HexKeypad.hpp"
 
 namespace sf {
+  // Add keypad support to a monochrome display
+  // Reimplements the refresh method in order to get the pressed keys
+  // Keys are then forwarded to the backend
+  // Backend is any device implementing keyPressed/Released methods
   class MonochromeDisplayKeypad : public sf::MonochromeDisplay {
     private:
       HexKeypad _keypad;
@@ -15,6 +19,8 @@ namespace sf {
   };
 }
 
+// Refresh the window like the abstract class
+// Add keypad support
 template <typename T>
 void sf::MonochromeDisplayKeypad::refresh(T& backend) {
   while (_window.pollEvent(_windowEvent)) {
